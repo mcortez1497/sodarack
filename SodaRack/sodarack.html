@@ -1,0 +1,126 @@
+<html ng-app="sodaRack">
+	<head>
+		<title>SodaRack</title>
+		<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="sodarack.css">
+	</head>
+	<body>
+
+		<div class="container" ng-controller="SodaRackController">
+
+			<!--HEADER-->
+			<div class="row">
+
+				<div class="col-md-12">
+					<div class="page-header"><h1>SodaRack</h1></div>
+				</div>
+
+			</div>
+			
+			<!--CONTENT-->
+			<div class="row">
+
+				<!--LEFT MENU-->
+				<div class="col-md-3">
+
+					<!--REFUELING STATIONS-->
+					<div class="panel panel-default">
+						<div class="panel-body">
+
+							<form class="form-group" ng-submit="addStation()">
+
+								<label for="textStation">Create Refueling Stations</label>
+
+								<div class="input-group">
+									<input type="text" id="textStation" class="form-control" ng-model="station" placeholder="Enter a name" />
+							    	<span class="input-group-btn">
+							    		<button type="button" class="btn btn-primary">Create</button>
+							    	</span>
+								</div>
+								<span class="error">{{ stationCreateMessage }}</span>
+
+							</form>
+
+							<ul class="list-group">
+								<li class="list-group-item" ng-repeat="station in stations | orderBy: 'toString()'">
+									{{ station }}
+									<button type='button' class='close' aria-hidden='true' ng-click="removeStation()">&times;</button>
+								</li>
+							</ul>
+
+						</div>
+					</div>
+
+					<!--SODA FLAVORS-->
+					<div class="panel panel-default">
+						<div class="panel-body">
+
+							<form class="form-group" ng-submit="addFlavor();">
+
+								<label for="textFlavor">Create Soda Flavors</label>
+
+								<div class="input-group">
+									<input type="text" id="textFlavor" class="form-control" ng-model="flavor" placeholder="Enter a name" />
+							    	<span class="input-group-btn">
+							    		<button type="button" class="btn btn-warning">Create</button>
+							    	</span>
+								</div>	
+								<span class="error">{{ flavorCreateMessage }}</span>
+								
+							</form>
+
+							<ul class="list-group">
+								<li class="list-group-item" ng-repeat="flavor in flavors | orderBy: 'toString()'">
+									{{ flavor }}
+									<button type='button' class='close' aria-hidden='true' ng-click="removeFlavor()">&times;</button>
+								</li>
+							</ul>
+
+						</div>
+					</div>
+				
+				</div>
+
+				<!--MAIN CONTENT-->
+				<div class="col-md-9">
+
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#stations" data-toggle="tab">Refueling Stations</a></li>
+						<li><a href="#flavors" data-toggle="tab">Soda Flavors</a></li>
+					</ul>
+
+					<div class="tab-content" ng-controller="AssociationController">
+						<div class="tab-pane active" id="stations">
+							<div class="alert alert-info" ng-if="stations.length == 0"><b>Quench your thirst!</b> Use the left menu to start creating <b>Refueling Stations</b>.</div>
+							<station-view ng-repeat="(stationName, associatedFlavors) in stationAssociations"></station-view>
+						</div>
+						<div class="tab-pane" id="flavors">
+							<div class="alert alert-warning" ng-if="flavors.length == 0"><b>I'm parched!</b> Use the left menu to start creating <b>Soda Flavors</b>.</div>
+							<flavor-view ng-repeat="(flavorName, associatedStations) in flavorAssociations"></flavor-view>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+			<!--FOOTER-->
+			<div class="row">
+
+				<div class="col-md-12">
+					<div class="page-footer">
+						<span class="subtle pull-left">&copy; 2014 Michael Cortez</span>
+						<span class="subtle pull-right">For RackSpace</span>
+					</div>
+				</div>
+
+			</row>
+		</div>
+
+
+    	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+    	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+    	<script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    	<script type="text/javascript" src="sodarack.js"></script>
+	</body>
+</html>
